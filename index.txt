@@ -1,0 +1,53 @@
+import { useState } from 'react';
+import CarPreferencesForm from '../components/CarPreferencesForm';
+import CarRecommendations from '../components/CarRecommendations';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import { CarPreferences, Car } from '../types/car';
+import { mockCarData } from '../data/mockCars';
+
+const Index = () => {
+  const [recommendations, setRecommendations] = useState<Car[]>([]);
+  const [showRecommendations, setShowRecommendations] = useState(false);
+
+  const handlePreferencesSubmit = (preferences: CarPreferences) => {
+    console.log('User preferences:', preferences);
+    
+    // Filter cars based on preferences
+    const filteredCars = mockCarData.filter(car => {
+      const withinBudget = car.price >= preferences.minBudget && car.price <= preferences.maxBudget;
+      const matchesFuelType = !preferences.fuelType || car.fuelType === preferences.fuelType;
+      const matchesBrand = !preferences.brand || car.brand.toLowerCase().includes(preferences.brand.toLowerCase());
+      const matchesTransmission = !preferences.transmission || car.transmission === preferences.transmission;
+      const matchesBodyType = !preferences.bodyType || car.bodyType === preferences.bodyType;
+      const matchesColor = !preferences.color || car.color.toLowerCase().includes(preferences.color.toLowerCase());
+      
+      return withinBudget && matchesFuelType && matchesBrand && matchesTransmission && matchesBodyType && matchesColor;
+    });
+
+    // Sort by price (ascending)
+    const sortedCars = filteredCars.sort((a, b) => a.price - b.price);
+    
+    setRecommendations(sortedCars);
+    setShowRecommendations(true);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+      <Header />
+      {!showRecommendations ? (
+        <>
+          <Hero />
+          <CarPreferencesForm onSubmit={handlePreferencesSubmit} />
+        </>
+      ) : (
+        <CarRecommendations 
+          cars={recommendations} 
+          onStartOver={() => setShowRecommendations(false)} 
+        />
+      )}
+    </div>
+  );
+};
+
+export default Index;
