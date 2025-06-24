@@ -1,0 +1,26 @@
+
+export interface Car {
+  id: string;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  fuelType: 'Petrol' | 'Diesel' | 'Electric' | 'Hybrid';
+  transmission: 'Manual' | 'Automatic';
+  bodyType: 'Sedan' | 'SUV' | 'Hatchback' | 'Coupe' | 'Convertible';
+  color: string;
+  mileage: string;
+  image: string;
+  features: string[];
+  description: string;
+}
+
+export interface CarPreferences {
+  minBudget: number;
+  maxBudget: number;
+  fuelType?: string;
+  brand?: string;
+  transmission?: string;
+  bodyType?: string;
+  color?: string;
+}
