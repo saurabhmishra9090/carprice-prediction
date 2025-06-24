@@ -1,0 +1,2 @@
+# carprice-prediction
+A full-stack web application that recommends the best-matching cars based on user preferences like budget, fuel type, color, brand, and transmission. Built with React and Flask, the platform filters car listings in real time and delivers tailored suggestions through a clean, responsive interface.
